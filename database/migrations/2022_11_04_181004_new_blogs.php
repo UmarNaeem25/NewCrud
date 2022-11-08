@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('new_blogs', function (Blueprint $table) {
             $table->id();
             $table->string('text');
-            $table->string('clientID');
+            $table->string('clientID')->unique();
             $table->timestamps();
          });
     }

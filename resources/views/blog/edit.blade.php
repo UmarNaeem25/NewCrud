@@ -8,7 +8,7 @@
       <br>
       <br>
      
-        <form method="post" action="{{route('client.update',$form->id)}}">
+        <form method="post" action="{{Route('client.update',$form->id)}}">
         @csrf
       
     <div class="form-group">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Form;
 use Validator;
+use Illuminate\Support\Facades\Hash;
 
 class FormsController extends Controller
 {
@@ -15,7 +16,7 @@ class FormsController extends Controller
 
     public function index()
     {
-        $form=Form::all();
+        $form=Form::orderBy('ID','asc')->paginate(5);
         return view('blog.blog')->with('forms',$form);
     }
 
@@ -29,7 +30,7 @@ class FormsController extends Controller
         $this->validate($request,[
         'name'=>'required',
         'email'=>'required|unique:forms',
-        'password'=>'required',
+        'password'=>'required|min:4',
          ]);
 
         $form=new Form;
@@ -38,7 +39,7 @@ class FormsController extends Controller
         $form->password=$request->password;
         $form->updated_at= now();
         $form->save();
-        return redirect('/client');
+        return redirect('/client')->with('inserted','Data Inserted');
 
     }
 
@@ -55,12 +56,12 @@ class FormsController extends Controller
         $form->email=$request->email;
         $form->password=$request->password;
         $form->save();
-        return redirect('client');
+        return redirect('/client')->with('updated','Data Updated');
 
     }
     public function delete($id){
         $form=Form::find($id);
         $form->delete();
-        return redirect('client');
+        return redirect('client')->with('deleted','Data Deleted');
     }
 }

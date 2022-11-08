@@ -15,18 +15,21 @@
     </div>
     <div class="form-group">
       <label>Email</label>
-      <input type="text" class="form-control" placeholder="Enter email" name="email">
+      <input type="email" class="form-control" placeholder="Enter email" name="email">
       @if ($errors->has('email'))
       <span class="text-danger">{{ $errors->first('email') }}</span>
       @endif
     </div>
     <div class="form-group">
       <label>Password</label>
-      <input type="text" class="form-control" placeholder="Enter password" name="password" id="pass">
+      <input type="password" class="form-control" placeholder="Enter password" name="password" id="pass">
+      @if ($errors->has('password'))
+      <span class="text-danger">{{ $errors->first('password') }}</span>
+      @endif
     </div>
     <div class="form-group">
       <label>Confirm Password</label>
-      <input type="text" class="form-control" placeholder="Enter confirm password" name="con-password" id="conpass">
+      <input type="password" class="form-control" placeholder="Enter confirm password" name="con-password" id="conpass" autocomplete="off">
       <span id="msg" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>

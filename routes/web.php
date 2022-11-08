@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\BlogController;
 
-        
+            
 
             Route::group(['prefix'=>'client'],function(){
 
@@ -24,5 +24,19 @@ use App\Http\Controllers\BlogController;
 
             // Route::post('/blogadd',[BlogController::class,'add'])->name('addblog');
 
+            Route::get('/blogindex',[BlogController::class,'index'])->name('blog.index');
+
+             //Route::post('/blogcreate',[BlogController::class,'create'])->name('blog.create');
+
             Route::post('/blogadd',[BlogController::class,'add'])->name('addblog');
-});
+
+            Route::get('/blogedit/{id}',[BlogController::class,'edit'])->name('blog.edit');
+
+            Route::get('/blogupdate/{id}',[BlogController::class,'update'])->name('blog.update');
+
+            // Route::get('/blogdelete/{id}',[BlogController::class,'delete'])->name('blog.delete');
+
+            Route::post('/blogdelete',[BlogController::class,'delete'])->name('blogdelete');
+
+    
+}); 

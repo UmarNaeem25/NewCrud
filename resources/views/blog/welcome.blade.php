@@ -1,69 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-  <meta charset="UTF-8">
-  
-<link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
-<meta name="apple-mobile-web-app-title" content="CodePen">
-<meta name="csrf-token" content="{{ csrf_token() }}">
-
-<link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
-
-<link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
 
 
-  <title>CodePen - Bootstrap 4 Navbar</title>
-  
-  
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
-  
-<style>
-.navbar { background-color: #484848; }
-.navbar .navbar-nav .nav-link { color: #fff; }
-.navbar .navbar-nav .nav-link:hover { color: #fbc531; }
-.navbar .navbar-nav .active > .nav-link { color: #fbc531; }
+@extends('layouts.app')
 
-footer a.text-light:hover { color: #fed136!important; text-decoration: none; }
-footer .cizgi { border-right: 1px solid #535e67; }
-@media (max-width: 992px) { footer .cizgi { border-right: none; } }
-</style>
+@section('content')
 
-  <script>
-  window.console = window.console || function(t) {};
-</script>
-
-  
-  
-  <script>
-  if (document.location.search.match(/type=embed/gi)) {
-    window.parent.postMessage("resize", "*");
-  }
-</script>
-
-
-</head>
-<body style="height:1500px">
-
-<x-header />
-<br>
-<br>
-
-
-<div class="jumbotron jumbotron-fluid">
+<div>
+  @if(session()->has('message'))
+  <div class="alert alert-success">
+  {{session()->get('message')}}
+  </div>
+  @endif
+</div>
+@foreach($new_blogs as $myblog)
+<input type="hidden" class="blog_id" name="blog_id" value="{{$myblog->id}}">
+  <div class="jumbotron jumbotron-fluid">
   <div class="container">
-    <h1>Blog 1</h1>      
-    <p>This is the first blog</p>
+    <h1>Blog {{$loop->index+1}}</h1>     
+    <br>
+    <span>{{$myblog->text}}</span>
+    <span>{{$myblog->clientID}}</span>
+    <br>
+    <br>
+  
+    <a class="btn btn-warning" href="{{Route('blog.edit' ,$myblog->id)}}">Edit</a>
+    <a class="btn btn-danger" onclick="delete_function({{$myblog->id}})">Delete</a>
+    {{-- onclick="return confirm('Do you really want to delete this blog?')" --}}
   </div>
 </div>
-<br>
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1>Blog 2</h1>      
-    <p>This is the second blog</p>
+  {{-- <!--Modal -->
+    <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p>Are you sure you want to delete this entry?</p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <a href="{{Route('blog.delete' ,$myblog->id)}}" class="btn btn-primary">Yes</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+      </div>
+    </div>
   </div>
-</div>
+</div> --}}
+@endforeach
+{{$new_blogs->links()}}
 
-</body>
-</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-3.3.1.js" integrity="sha256-lGuUqJUPXJEMgQX/RRaM6mZkK6ono5i5bHuBME4qOCo=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+<script>
+ var url_route = "{{route('blogdelete')}}";
+
+ function delete_function(id){
+
+  var blog_id  = id;
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      
+    $.ajax({
+              url: url_route,
+              type: 'POST',
+              dataType: 'json',
+              data: {
+              "id": blog_id
+             },
+              success: function(response) {
+                console.log(response);
+              alert('record deleted');  
+              }
+           });
+    
+            }
+
+</script>  
+@stop
