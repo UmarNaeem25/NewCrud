@@ -12,7 +12,10 @@
 <body>
 
 <div class="container">
+    <br>
+    <br>
   <h2>Registration Form</h2>
+  <br>
   <form action="">
     <div class="form-group">
       <label >User Name:</label>
