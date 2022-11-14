@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormsController;
 use App\Http\Controllers\BlogController;
-
-            
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;     
+use App\Http\Controllers\CommentController;       
 
             Route::group(['prefix'=>'client'],function(){
 
@@ -22,11 +23,9 @@ use App\Http\Controllers\BlogController;
 
             Route::get('/delete/{id}',[FormsController::class,'delete'])->name('client.delete');
 
-            // Route::post('/blogadd',[BlogController::class,'add'])->name('addblog');
 
             Route::get('/blogindex',[BlogController::class,'index'])->name('blog.index');
 
-             //Route::post('/blogcreate',[BlogController::class,'create'])->name('blog.create');
 
             Route::post('/blogadd',[BlogController::class,'add'])->name('addblog');
 
@@ -34,9 +33,20 @@ use App\Http\Controllers\BlogController;
 
             Route::get('/blogupdate/{id}',[BlogController::class,'update'])->name('blog.update');
 
-            // Route::get('/blogdelete/{id}',[BlogController::class,'delete'])->name('blog.delete');
-
             Route::post('/blogdelete',[BlogController::class,'delete'])->name('blogdelete');
 
-    
+            Route::get('/register',[RegisterController::class,'index'])->name('register.index');
+
+            Route::post('/comment',[CommentController::class,'addcomment'])->name('comment.add');
+
+            Route::post('/reply',[CommentController::class,'addreply'])->name('reply.add');
+
+            Route::post('/replyupdate',[CommentController::class,'updatereply'])->name('reply.update');
+
+            Route::post('/replydelete',[CommentController::class,'deletereply'])->name('reply.delete');
+
+
+            Route::post('/registerform',[RegisterController::class,'index'])->name('register.view');
+
+            Route::post('/login',[LoginController::class,'index'])->name('login.view');
 }); 

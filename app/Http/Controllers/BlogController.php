@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\new_blog;
-
+use App\Models\comment;
 
 class BlogController extends Controller
 {
      public function index()
     {
         
-        $new_blog=new_blog::paginate(4);
+        $new_blog = new_blog::paginate(4);
+        $comment = comment::all();
         
-        return view('blog.welcome')->with('new_blogs',$new_blog);
+        return view('blog.welcome')->with(['new_blogs'=>$new_blog,'comments'=>$comment]);
     }
 
 
@@ -28,7 +29,7 @@ class BlogController extends Controller
         $new_blog->clientID=$request->clientID;
         $new_blog->save();
 
-        return redirect()->Route('blog.index')->with('message','Record inserted');
+        return redirect()->Route('blog.index');
         
     }
 
@@ -47,10 +48,12 @@ class BlogController extends Controller
         return redirect()->Route('blog.index');
 
     }
+
+
+    
     public function delete(Request $request){
     
         $new_blog=new_blog::find($request->id);
-        // $new_blog->delete();
         if($new_blog->delete())
         {
             $message = true;

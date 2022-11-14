@@ -17,7 +17,7 @@
 						<a class="nav-link active" href="{{route('index')}}"><i class="fa fa-info-circle fa-fw mr-1"></i>User</a>
 					</li>
 					<li class="nav-item pl-1">
-						<a class="nav-link" href="#"><i class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>Contact</a>
+						<a class="nav-link" href="{{route('register.index')}}"><i class="fa fa-phone fa-fw fa-rotate-180 mr-1"></i>Register</a>
 					</li>
 					<li class="nav-item pl-1">
 						<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">New Blog
